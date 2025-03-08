@@ -31,9 +31,16 @@ async function run() {
 
     const database = client.db("CineSphereDB");
     const movieCollection = database.collection("movie");
+    const blogCollection = database.collection("blogs");
 
+    // Movies
     app.get("/movies", async (req, res) => {
       const cursor = movieCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    app.get("/movies/featured", async (req, res) => {
+      const cursor = movieCollection.find().sort({ Rating: -1 }).limit(6);
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -43,8 +50,9 @@ async function run() {
       const result = await movieCollection.findOne(query);
       res.send(result);
     });
-    app.get("/movies/featured", async (req, res) => {
-      const cursor = movieCollection.find().sort({ Rating: -1 }).limit(6);
+    // Blogs
+    app.get("/blogs", async (req, res) => {
+      const cursor = blogCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
