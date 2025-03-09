@@ -29,28 +29,55 @@ async function run() {
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
 
-    const database = client.db("CineSphereDB");
+    const database = client.db(process.env.DB_NAME);
     const movieCollection = database.collection("movie");
     const blogCollection = database.collection("blogs");
+    const favoriteCollection = database.collection("favorites");
 
-    // Movies
+    // !Movie Routes
+    // !Get All Movies
     app.get("/movies", async (req, res) => {
       const cursor = movieCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    // !Get Featured Movies (top 6 by rating)
     app.get("/movies/featured", async (req, res) => {
       const cursor = movieCollection.find().sort({ Rating: -1 }).limit(6);
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    // !Get a Single Movie
     app.get("/movies/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await movieCollection.findOne(query);
       res.send(result);
     });
-    // Blogs
+    
+    // !Add a Movie
+    
+    // !Update a Movie
+    
+    // !Delete a Movie
+
+
+    // !Favorite Routes
+    // !Get User Favorites
+        app.get("/favorites", async (req, res) => {
+          const cursor = favoriteCollection.find();
+          const result = await cursor.toArray();
+          res.send(result);
+        });
+    
+    // !Add To Favorites
+
+    // !Remove From Favorites
+
+    // !Blog Routes
+    // !Get All Blogs
     app.get("/blogs", async (req, res) => {
       const cursor = blogCollection.find();
       const result = await cursor.toArray();
