@@ -87,6 +87,12 @@ async function run() {
     });
 
     // !Remove From Favorites
+     app.delete("/favorites/:id", async (req, res) => {
+       const id = req.params.id;
+       const query = { movieId: id };
+       const result = await favoriteCollection.deleteOne(query);
+       res.send(result);
+     });
 
     // !Blog Routes
     // !Get All Blogs
