@@ -63,10 +63,16 @@ async function run() {
       const result = await movieCollection.insertOne(movie);
       res.send(result);
     });
-    
+
     // !Update a Movie
 
     // !Delete a Movie
+    app.delete("/movies/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await movieCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // !Favorite Routes
     // !Get All Favorites
