@@ -58,7 +58,12 @@ async function run() {
     });
 
     // !Add a Movie
-
+    app.post("/movies", async (req, res) => {
+      const movie = req.body;
+      const result = await movieCollection.insertOne(movie);
+      res.send(result);
+    });
+    
     // !Update a Movie
 
     // !Delete a Movie
@@ -72,9 +77,9 @@ async function run() {
     });
 
     // !Get a Single Favorite Movie
-    app.get("/favorites/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
+    app.get("/favorites/:movieId", async (req, res) => {
+      const movieId = req.params.movieId;
+      const query = { movieId: movieId };
       const result = await favoriteCollection.findOne(query);
       res.send(result);
     });
@@ -87,12 +92,12 @@ async function run() {
     });
 
     // !Remove From Favorites
-     app.delete("/favorites/:id", async (req, res) => {
-       const id = req.params.id;
-       const query = { movieId: id };
-       const result = await favoriteCollection.deleteOne(query);
-       res.send(result);
-     });
+    app.delete("/favorites/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { movieId: id };
+      const result = await favoriteCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // !Blog Routes
     // !Get All Blogs
