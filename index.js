@@ -56,23 +56,35 @@ async function run() {
       const result = await movieCollection.findOne(query);
       res.send(result);
     });
-    
+
     // !Add a Movie
-    
+
     // !Update a Movie
-    
+
     // !Delete a Movie
 
-
     // !Favorite Routes
-    // !Get User Favorites
-        app.get("/favorites", async (req, res) => {
-          const cursor = favoriteCollection.find();
-          const result = await cursor.toArray();
-          res.send(result);
-        });
-    
+    // !Get All Favorites
+    app.get("/favorites", async (req, res) => {
+      const cursor = favoriteCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // !Get a Single Favorite Movie
+    app.get("/favorites/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await favoriteCollection.findOne(query);
+      res.send(result);
+    });
+
     // !Add To Favorites
+    app.post("/favorites", async (req, res) => {
+      const favorite = req.body;
+      const result = await favoriteCollection.insertOne(favorite);
+      res.send(result);
+    });
 
     // !Remove From Favorites
 
